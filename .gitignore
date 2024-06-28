@@ -396,3 +396,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+#Virtual environment
+venv/*
+
+#Notebook checkpoints
+.ipynb_checkpoints/*
