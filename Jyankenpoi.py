@@ -2,82 +2,104 @@
 
 import random
 
-candidate_1 = "Computer_1"
-candidate_2 = "Computer_2"
+class jyankenpoi:
+    def __init__(self):
+        self.candidate_1 = "computer_1"
+        self.candidate_2 = "computer_2"
 
-candidate = [candidate_1, candidate_2]
+        self.possibility_1 = """
 
-#input
-
-print("Welcome to the Prediction Game!")
-prediction_game = input("Who do you think is going to win the battle? {} or {}?".format(candidate_1, candidate_2))
-
-# multistrings
-
-possibility_1 = """
             __________
           /         __|
 ----------          __|
 ----------          __|
           \         __|
            ___________/
+
 """
-possibility_2 = """
+        self.possibility_2 = """
+
             _____________
           /         _____|____
 ----------          __________|
 ----------          ___________|
           \         _________|
             ________________|
+
 """
-possibility_3 = """
+        self.possibility_3 = """
+
             _______
           /        \____________
 ----------       \  \___________|
 ----------        \  \__________|
           \   |____\_/___|
            \__|________|
+
 """
+        self.possibilities = [self.possibility_1, self.possibility_2, self.possibility_3]
+        self.result_1 = "It's a tie!"
+        self.result_2 = "Computer_1 wins!"
+        self.result_3 = "Computer_2 wins!"
 
-result_1 = "It's a tie!"
-result_2 = "Computer_1 win!"
-result_3 = "Computer_2 win!"
+    def get_prediction(self):
+        while True:
+            print("Welcome to the Prediction Game!")
+            prediction_game = input(f"Who do you think is going to win the battle? {self.candidate_1} or {self.candidate_2}? ").strip().lower()
 
-print("Let's play Rock, Paper, Scissors!")
-print("Rock beats Scissors")
-print("Paper beats Rock")
-print("Scissors beats Paper")
+            if prediction_game in [self.candidate_1, self.candidate_2]:
+                return prediction_game
+            else:
+                print("INVALID CHOICE! Please choose between {} or {}.".format(self.candidate_1, self.candidate_2))
 
-#tuple
+    def get_computer_choices(self):
+        computer_1 = random.choice(self.possibilities).lower()
+        computer_2 = random.choice(self.possibilities).lower()
+        return computer_1, computer_2
 
-possibilities = [possibility_1, possibility_2, possibility_3]
+    def determine_winner(self, computer_1, computer_2):
+        if computer_1 == computer_2:
+            result = self.result_1
+        elif computer_1 == self.possibility_1 and computer_2 == self.possibility_3:
+            result = self.result_2
+        elif computer_1 == self.possibility_2 and computer_2 == self.possibility_1:
+            result = self.result_2
+        elif computer_1 == self.possibility_3 and computer_2 == self.possibility_2:
+            result = self.result_2
+        else:
+            result = self.result_3
+        return result
 
-Computer_1 = random.choice(possibilities)
-Computer_2 = random.choice(possibilities)
+    def play_game(self):
+        prediction_game = self.get_prediction()
 
-print(f"Computer_1 choose : {Computer_1}")
-print(f"Computer_2 choose : {Computer_2}")
+        print("Let's play Rock, Paper, Scissors!")
+        print("Rock beats Scissors")
+        print("Paper beats Rock")
+        print("Scissors beats Paper")
 
-if Computer_1 == Computer_2:
-    result = result_1
-elif Computer_1 == possibility_1 and Computer_2 == possibility_3:
-    result = result_2
-elif Computer_1 == possibility_2 and Computer_2 == possibility_1:
-    result = result_2
-elif Computer_1 == possibility_3 and Computer_2 == possibility_2:
-    result = result_2
-else:
-    result = result_3
+        while True:
+            computer_1, computer_2 = self.get_computer_choices()
+            print(f"COMPUTER_1 CHOOSE: {computer_1}")
+            print(f"COMPUTER_2 CHOOSE: {computer_2}")
 
-#boolean, AND & OR function
+            result = self.determine_winner(computer_1, computer_2)
 
-text_1= f"Your prediction is correct!{prediction_game} is the winner!"
-text_2= f"Your prediction is wrong!{prediction_game} is the loser!"
-text_3= "It's a tie! Repeat the battle!"
+            text_1 = f"Your prediction is correct! {prediction_game} is the winner!"
+            text_2 = f"Your prediction is wrong! {prediction_game} is the loser!"
+            text_3 = "It's a tie! Repeat the battle!"
 
-if (prediction_game == candidate_1 and result == result_2) or (prediction_game == candidate_2 and result == result_3):
-    print(text_1.upper())
-elif result == result_1:
-    print(text_3.upper())
-else:
-    print(text_2.upper())
+            if (prediction_game == self.candidate_1 and result == self.result_2) or (prediction_game == self.candidate_2 and result == self.result_3):
+                print(text_1.upper())
+            elif result == self.result_1:
+                print(text_3.upper())
+            else:
+                print(text_2.upper())
+
+            play_again = input("Do you want to play again? (yes/no): ").lower()
+            if play_again != "yes":
+                print("Thanks for playing!")
+                break
+
+game = jyankenpoi()
+game.play_game()
